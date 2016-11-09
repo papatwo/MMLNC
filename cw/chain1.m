@@ -64,7 +64,7 @@ TL = [
 
 %
 % T(2,2,1) = 0.24 % i.e. 1th matrix tW, 2rd row, 2th column (postState,priorState, action)
-T = cat(3, TR, TL); % transition probabilities for each action 
+T = cat(3, TL, TR); % transition probabilities for each action 
 
 %--------------------------------------------------------------------------
 
@@ -76,8 +76,10 @@ elseif ((priorState == 6) && (postState == 7))
     rew = 10;
 elseif priorState > postState 
     rew = 1;
-else
+elseif priorState < postState
     rew = -1;
+else
+    rew=0;
 end
 
 % get the reward matrix (defined as a local function - subfunction)
