@@ -2,7 +2,7 @@
 % clear all
 mygamma = 0.91;
 tol = 0.001;
-[S, A, T, R,StateNames, ActionNames, Absorbing] = chainnn(); % define transition prob and reward
+[S, A, T, R,StateNames, ActionNames, Absorbing] = chain1(); % define transition prob and reward
 [UnbiasedPolicy] = GetUnbiasedPolicy(Absorbing, A); % get unbiased policy
 [V,i,del] = PolicyEvaluation(UnbiasedPolicy, T, R, Absorbing, mygamma, tol); % value function for unbiased policy
 
@@ -31,7 +31,7 @@ R_mat=zeros(length(trace),7); % first visited return matrix
                                 % row: trace number
                                 % col: state
 
-for i=1:1000000
+for i=1:10
     % initialise every trace
     temp=[4];
     current=4;
@@ -80,8 +80,8 @@ for i=1:1000000
         priorStep=[priorStep prior]; % update all the prior states visited
      end
 trace{i}=temp; % store the finished trace
-seq{i,1}=t; %store the finished path
-R{i}=rew;
+seq{i,1}=t; % store the finished path
+R{i}=rew; % store the reward for this trace (for monte-carlo policy evaluation aim)
 
 [unitrace, uni_i]=unique(trace{i},'stable'); % get the first visited state and their idx
 v_mc=[];
@@ -108,7 +108,10 @@ end
 
 end
 
-avg_R=sum(R_mat,1)./sum(R_mat~=0,1)
+avg_R=sum(R_mat,1)./sum(R_mat~=0,1) % calculate the mean for each state over ten traces
+
+
+%% Question 5
 
 
 
