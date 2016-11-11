@@ -12,11 +12,11 @@ p_stay=0.24;
 p_move=0.76;
 p_lu=0.5;
 p_ru=0.5;
-% Trace 1: s4 ¡ú s5 ¡ú s6 ¡ú s7  
+% Trace 1: s4 -> s5 -> s6 -> s7  
 p_t1= p_ru * p_move * p_ru * p_move *p_ru * p_move;
-% Trace 2: s4 ¡ú s5 ¡ú s6 ¡ú s7
+% Trace 2: s4 -> s5 -> s6 -> s7
 p_t2= p_ru * p_move * p_ru * p_move *p_ru * p_move;
-% Trace 3: s4 ¡ú s3 ¡ú s4 ¡ú s5 ¡ú s6 ¡ú s7
+% Trace 3: s4 -> s3 -> s4 -> s5 -> s6 -> s7
 p_t3= p_lu * p_move * p_ru * p_move *p_ru * p_move * p_ru * p_move * p_ru * p_move;
 % Likelihood
 L_u=p_t1 * p_t2 * p_t3;
@@ -94,6 +94,7 @@ V_mc{i}=[v_mc(uni_i(1:end-2)) v_mc(end)]; % return for first visited states
 
 
 
+
 for g=1:length(unitrace)-1 % ignore absorbing state (return for absorbing state is 0)
     for m=1:7
             if unitrace(g)==m
@@ -112,6 +113,12 @@ avg_R=sum(R_mat,1)./sum(R_mat~=0,1) % calculate the mean for each state over ten
 
 
 %% Question 5
+avg_r=[0 avg_R(2:end-1) 0]; % reformat the evaluated value from Monte-carlo
+MSE=immse(avg_r,V') 
 
-
+plot(V,'LineWidth',2);hold on;plot(avg_r,'LineWidth',2)
+title('Evaluation of Unbiased policy and Monte-Carlo')
+xlabel('State')
+ylabel('Value')
+legend('V^{\pi^u}','V^{\pi^M}')
 
