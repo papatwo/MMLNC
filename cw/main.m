@@ -90,7 +90,7 @@ for c=1:length(temp)-1 %
 end
 % V_mcall{i}=v_mc; % Return for all visited states. A check reference for
 % % return of first visted states
-V_mc{i}=[v_mc(uni_i(1:end-2)) v_mc(end)]; % return for first visited states
+V_mc{i}=[v_mc(uni_i(1:end-1)) v_mc(end)]; % return for first visited states
 
 
 
